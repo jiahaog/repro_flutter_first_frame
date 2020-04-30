@@ -1,7 +1,20 @@
+import 'dart:async';
 import 'package:flutter/material.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+
+  Timer.periodic(Duration(seconds: 1), (timer) {
+    final x = WidgetsBinding.instance.firstFrameRasterized;
+    print('First frame rasterized $x');
+  });
+
+  WidgetsBinding.instance.deferFirstFrame();
+
   runApp(MyApp());
+
+  await Future.delayed(Duration(seconds: 1));
+  WidgetsBinding.instance.allowFirstFrame();
 }
 
 class MyApp extends StatelessWidget {
